@@ -20,7 +20,7 @@ class User(AbstractUser):
         verbose_name='Имя пользователя',
         max_length=150,
         unique=True,
-        validators=[validators.validate_slug]
+        validators=[validators.validate_slug],
     )
 
     email = models.EmailField(
@@ -40,10 +40,7 @@ class User(AbstractUser):
         null=True,
     )
 
-    bio = models.TextField(
-        verbose_name='О себе',
-        blank=True
-    )
+    bio = models.TextField(verbose_name='О себе', blank=True)
 
     role = models.CharField(
         verbose_name='Права пользователя',
@@ -57,10 +54,7 @@ class User(AbstractUser):
 
     @property
     def is_admin(self):
-        return (
-            self.role == self.ADMIN
-            or self.is_superuser
-        )
+        return self.role == self.ADMIN or self.is_superuser
 
     @property
     def is_moderator(self):

@@ -6,7 +6,6 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -18,40 +17,69 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='review',
             name='author',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='reviews', to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name='reviews',
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
         migrations.AddField(
             model_name='review',
             name='title',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='reviews', to='reviews.title'),
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name='reviews',
+                to='reviews.title',
+            ),
         ),
         migrations.AddField(
             model_name='genretitle',
             name='genre',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='reviews.genres'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to='reviews.genres',
+            ),
         ),
         migrations.AddField(
             model_name='genretitle',
             name='title',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='reviews.title'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to='reviews.title'
+            ),
         ),
         migrations.AddField(
             model_name='comments',
             name='author',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='comments', to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name='comments',
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
         migrations.AddField(
             model_name='comments',
             name='review',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='comments', to='reviews.review'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name='comments',
+                to='reviews.review',
+            ),
         ),
         migrations.AddField(
             model_name='comments',
             name='title',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='comments', to='reviews.title'),
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name='comments',
+                to='reviews.title',
+            ),
         ),
         migrations.AddConstraint(
             model_name='review',
-            constraint=models.UniqueConstraint(fields=('author', 'title'), name='unique_review'),
+            constraint=models.UniqueConstraint(
+                fields=('author', 'title'), name='unique_review'
+            ),
         ),
     ]

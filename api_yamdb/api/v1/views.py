@@ -13,7 +13,8 @@ from rest_framework import filters, mixins, viewsets, status
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
 from rest_framework.permissions import (
-    IsAuthenticatedOrReadOnly, IsAuthenticated,
+    IsAuthenticatedOrReadOnly,
+    IsAuthenticated,
 )
 from rest_framework_simplejwt.tokens import AccessToken
 
@@ -21,15 +22,22 @@ from users.models import User
 from reviews.models import Title, Categories, Genres, Review
 from .permissions import IsAdminOrReadOnly, IsAdmin, OwnerOrReadOnly
 from .serializers import (
-    TitleSerializerCreate, TitleSerializerRead, CategorySerializer,
-    GenreSerializer, ReviewSerializer, UserSerializer,
-    SignupSerializer, TokenSerializer, CommentSerializer,
+    TitleSerializerCreate,
+    TitleSerializerRead,
+    CategorySerializer,
+    GenreSerializer,
+    ReviewSerializer,
+    UserSerializer,
+    SignupSerializer,
+    TokenSerializer,
+    CommentSerializer,
 )
 from .filters import TitleFilter
 
 
 class UserViewSet(viewsets.ModelViewSet):
     """Вьюсет для отображения пользователей."""
+
     queryset = User.objects.all()
     http_method_names = ['patch', 'get', 'post', 'delete', 'head']
     serializer_class = UserSerializer
@@ -64,6 +72,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
 class SignupAPIView(APIView):
     """Вьюсет для регистрации и отправки на email."""
+
     permission_classes = (AllowAny,)
 
     def post(self, request):
@@ -71,8 +80,8 @@ class SignupAPIView(APIView):
         email = request.data.get('email')
 
         if User.objects.filter(
-                username=username,
-                email=email,
+            username=username,
+            email=email,
         ).exists():
             return Response(request.data, status=status.HTTP_200_OK)
 
@@ -97,6 +106,7 @@ class SignupAPIView(APIView):
 
 class TokenAPIView(APIView):
     """Вьюсет для подтверждения доступа."""
+
     permission_classes = (AllowAny,)
 
     def post(self, request):
@@ -104,7 +114,8 @@ class TokenAPIView(APIView):
         serializer.is_valid(raise_exception=True)
         user = get_object_or_404(User)
         if default_token_generator.check_token(
-            user, serializer.validated_data['confirmation_code'],
+            user,
+            serializer.validated_data['confirmation_code'],
         ):
             token = AccessToken.for_user(user)
             return Response({'token': str(token)}, status=status.HTTP_200_OK)
@@ -125,6 +136,7 @@ class TitleViewSet(viewsets.ModelViewSet):
     """Вьюсет для передачи и получения информации о
     модели Title. Создает и удаляет админ.
     Нет методов retrieve и update."""
+
     queryset = Title.objects.all().annotate(
         Avg('reviews__score'),
     )
@@ -145,6 +157,7 @@ class CategoryViewSet(CreateRetrieveDeleteViewSet):
     """Вьюсет для передачи и получения информации о
     модели Categories. Создает и удаляет админ.
     Нет методов retrieve и update."""
+
     queryset = Categories.objects.all()
     serializer_class = CategorySerializer
     permission_classes = (IsAdminOrReadOnly,)
@@ -157,6 +170,7 @@ class CategoryViewSet(CreateRetrieveDeleteViewSet):
 class GenreViewSet(CreateRetrieveDeleteViewSet):
     """Вьюсет для передачи и получения информации о
     модели Genres. Изменения вносит админ."""
+
     queryset = Genres.objects.all()
     serializer_class = GenreSerializer
     permission_classes = (IsAdminOrReadOnly,)
@@ -168,6 +182,7 @@ class GenreViewSet(CreateRetrieveDeleteViewSet):
 
 class ReviewViewSet(viewsets.ModelViewSet):
     """Вьюсет для отзывов."""
+
     serializer_class = ReviewSerializer
     permission_classes = (OwnerOrReadOnly, IsAuthenticatedOrReadOnly)
     pagination_class = PageNumberPagination
@@ -184,6 +199,7 @@ class ReviewViewSet(viewsets.ModelViewSet):
 
 class CommentViewSet(viewsets.ModelViewSet):
     """Вьюсет для комментариев."""
+
     serializer_class = CommentSerializer
     permission_classes = (OwnerOrReadOnly, IsAuthenticatedOrReadOnly)
     pagination_class = PageNumberPagination
@@ -193,7 +209,8 @@ class CommentViewSet(viewsets.ModelViewSet):
 
     def _get_review(self):
         return get_object_or_404(
-            Review, pk=self.kwargs.get('review_id'),
+            Review,
+            pk=self.kwargs.get('review_id'),
             title_id=self.kwargs.get('title_id'),
         )
 
