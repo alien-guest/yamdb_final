@@ -5,7 +5,7 @@
 [![Pytest](https://img.shields.io/badge/Pytest-464646?style=flat-square&logo=pytest)](https://docs.pytest.org/en/6.2.x/)
 [![Postman](https://img.shields.io/badge/Postman-464646?style=flat-square&logo=postman)](https://www.postman.com/)
 
-[![Git-Hub Actions](https://github.com/<OWNER>/<REPOSITORY>/actions/workflows/<WORKFLOW_FILE>/badge.svg)]
+![Git-Hub Actions](https://github.com/alien-guest/yamdb_final/actions/workflows/yamdb_workflow/badge.svg)
 ## Описание
 
 Яндекс Практикум. Спринт 16. Api для проекта Yamdb
